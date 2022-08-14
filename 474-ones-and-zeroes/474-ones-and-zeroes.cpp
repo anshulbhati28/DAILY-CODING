@@ -1,22 +1,24 @@
 class Solution {
 public:
-    vector<vector<vector<int>>> dp;
-    int findMax(vector<string>& strs, int m, int n,int index,vector<vector<vector<int>>>& dp)
-    {
-        if(index==strs.size()) return 0;
-        if(dp[m][n][index]!=-1) return dp[m][n][index];
-        int countzeroes = count(strs[index].begin(),strs[index].end(),'0');
-        int countones = count(strs[index].begin(),strs[index].end(),'1');
-        
-     if(m-countzeroes>=0 && n-countones>=0)
-     return dp[m][n][index] = max(1 + findMax(strs,m-countzeroes,n-countones,index+1,dp),findMax(strs,m,n,index+1,dp));
-        
-        return dp[m][n][index] = findMax(strs,m,n,index+1,dp);
-        
-    }
     
-    int findMaxForm(vector<string>& strs, int m, int n) {
-        dp.resize(m+1,vector<vector<int>>(n+1,vector<int>(strs.size(),-1)));
-        return findMax(strs,m,n,0,dp);
+int findMaxForm(vector<string>& strs, int m, int n) 
+{
+    
+vector<vector<vector<int>>> dp(strs.size()+1,vector<vector<int>>(m+1,vector<int>(n+1)));
+    
+    for(int i=1;i<=strs.size();i++){
+        
+    int countzeroes = count(strs[i-1].begin(),strs[i-1].end(),'0');
+    int countones = count(strs[i-1].begin(),strs[i-1].end(),'1');
+        
+        for(int j=0;j<=m;j++){
+            for(int k=0;k<=n;k++){
+                if(j-countzeroes>=0 && k-countones>=0)
+                    dp[i][j][k] = max(1+dp[i-1][j-countzeroes][k-countones],dp[i-1][j][k]);
+                else dp[i][j][k] = dp[i-1][j][k];
+            }
+        }
     }
+    return dp[strs.size()][m][n];
+}
 };
