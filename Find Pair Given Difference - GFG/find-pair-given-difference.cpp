@@ -27,22 +27,39 @@ int main()
 }
 // } Driver Code Ends
 
-bool bs(int arr[],int size,int l,int h,int target){
-    while(l<=h){
-        int m = l+(h-l)/2;
-        if(arr[m]==target) return true;
-        else if(arr[m]>target) h = m-1;
-        else l = m+1;
-    }
-    return false;
-}
+// bool bs(int arr[],int size,int l,int h,int target){
+//     while(l<=h){
+//         int m = l+(h-l)/2;
+//         if(arr[m]==target) return true;
+//         else if(arr[m]>target) h = m-1;
+//         else l = m+1;
+//     }
+//     return false;
+// }
 
 bool findPair(int arr[], int size, int n){
+    // sort(arr,arr+size);
+    // bool flag = false;
+    // for(int i=0;i<size;i++){
+    //     flag = bs(arr,size,i+1,size-1,arr[i]+n);
+    //     if(flag) return flag;
+    // }
+    // return flag;
     sort(arr,arr+size);
-    bool flag = false;
-    for(int i=0;i<size;i++){
-        flag = bs(arr,size,i+1,size-1,arr[i]+n);
-        if(flag) return flag;
+    int i = 0;  
+    int j = 1;
+ 
+    while (i<size && j<size)
+    {
+        if (i != j && arr[j]-arr[i] == n)
+        {
+            return true;
+        }
+        else if (arr[j]-arr[i] < n)
+            j++;
+        else
+            i++;
     }
-    return flag;
+ 
+    return false;
 }
