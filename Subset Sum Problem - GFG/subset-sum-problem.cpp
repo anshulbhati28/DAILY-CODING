@@ -12,27 +12,26 @@ public:
     
     bool isSubsetSum(vector<int>arr, int sum){
         int n = arr.size();
-        vector<vector<bool>> dp;
-        dp.resize(n,vector<bool>(sum+1,false));
-        
-        for(int i=0;i<n;i++){
-            dp[i][0] = true;
-        }
+        vector<bool>prev(sum+1,false);
         
         if(arr[0]<=sum){
-            dp[0][arr[0]] = true;
+            prev[arr[0]] = true;
         }
+        prev[0] = true;
         
         for(int ind=1;ind<n;ind++){
+            vector<bool> curr(sum+1,false);
+            curr[0] = true;
             for(int target = 1;target<=sum;target++){
-                bool notTaken = dp[ind-1][target];
+                bool notTaken = prev[target];
                 bool taken = false;
-                if(arr[ind]<=target) taken = dp[ind-1][target-arr[ind]];
-                dp[ind][target] = taken || notTaken;
+                if(arr[ind]<=target) taken = prev[target-arr[ind]];
+                curr[target] = taken || notTaken;
             }
+            prev = curr;
         }
         
-        return dp[n-1][sum];
+        return prev[sum];
     }
 };
 
