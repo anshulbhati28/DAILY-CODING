@@ -9,24 +9,22 @@ class Solution
     public:
     //Function to return max value that can be put in knapsack of capacity W.
     vector<vector<int>> dp;
-    int solve(int i,int W, int wt[], int val[], int n){
-        if(i==0){
-            if(wt[i]<= W) return val[i];
-            else return 0;
-        }
-        if(dp[i][W]!=-1)return dp[i][W];
-        int take = INT_MIN;
-        int notTake = solve(i-1,W,wt,val,n);
-        
-        if(wt[i]<=W)
-            take = val[i] + solve(i-1,W-wt[i],wt,val,n);
-
-        return dp[i][W] = max(notTake,take);
-    }
     int knapSack(int W, int wt[], int val[], int n)
     {
-       dp.resize(n,vector<int>(W+1,-1));
-       solve(n-1,W,wt,val,n);
+       dp.resize(n,vector<int>(W+1,0));
+       
+       for(int j=wt[0];j<=W;j++){
+           dp[0][j] = val[0];
+       }
+       for(int i=1;i<n;i++){
+           for(int j=0;j<=W;j++){
+               int take = INT_MIN;
+               if(wt[i]<=j) take = val[i] + dp[i-1][j-wt[i]];
+               int notTake = dp[i-1][j];
+               dp[i][j] = max(take,notTake); 
+           }
+       }
+       return dp[n-1][W];
     }
 };
 
