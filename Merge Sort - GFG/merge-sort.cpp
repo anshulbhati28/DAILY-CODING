@@ -21,37 +21,41 @@ class Solution
     public:
     void merge(int arr[], int l, int m, int r)
     {
-         int temp[r-l+1];
-         int i=l;
-         int j=m+1;
-         int k = 0;
-         
-         while(i<=m && j<=r){
-             if(arr[i]<arr[j]){
-                 temp[k++] = arr[i++];
-             }else{
-                 temp[k++] = arr[j++];
-             }
-         }
-         while(i<=m){
-             temp[k++] = arr[i++];
-         }
-         while(j<=r){
-             temp[k++] = arr[j++];
-         }
-         int n = sizeof(temp)/sizeof(temp[0]);
-         for(k=0, i=l;k<n;k++, i++){
-             arr[i] = temp[k];
-         }
+        vector<int> temp;
+        int left = l; // starting index of left half of array
+        int right = m+1; // starting index of right half of array
+        
+        while(left<=m && right<=r){
+            if(arr[left]<=arr[right]){
+                temp.push_back(arr[left]);
+                left++;
+            }
+            else{
+                temp.push_back(arr[right]);
+                right++;
+            } 
+        }
+            while(left<=m){
+                temp.push_back(arr[left]);
+                left++;
+            }
+            while(right<=r){
+                temp.push_back(arr[right]);
+                right++;
+            }
+            // copy all elements from temp to arr
+            for(int i=l;i<=r;i++){
+                arr[i] = temp[i-l];
+            }
     }
     public:
     void mergeSort(int arr[], int l, int r)
     {
         if(l>=r) return;
-        int m =l + (r-l)/2;
-        mergeSort(arr,l,m);
-        mergeSort(arr,m+1,r);
-        merge(arr,l,m,r);
+        int mid = (l+r)/2;
+        mergeSort(arr,l,mid);
+        mergeSort(arr,mid+1,r);
+        merge(arr,l,mid,r);
     }
 };
 
