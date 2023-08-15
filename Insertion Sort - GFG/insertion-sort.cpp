@@ -37,7 +37,7 @@ class Solution
     }
     void insertionSort(int arr[], int n)
     {
-        rec(arr,1,n);
+        rec(arr,0,n);
     }
 };
 
