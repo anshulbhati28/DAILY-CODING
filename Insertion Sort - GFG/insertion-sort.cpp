@@ -23,9 +23,9 @@ class Solution
     }
      public:
     //Function to sort the array using insertion sort algorithm.
-    void insertionSort(int arr[], int n)
+    void rec(int arr[], int i, int n)
     {
-        for(int i=0;i<n;i++){
+        if(i==n) return;
             int j=i;
             while(j>0 && arr[j-1]>arr[j]){
                 int temp = arr[j - 1];
@@ -33,7 +33,11 @@ class Solution
                 arr[j] = temp;
                 j--;
             }
-        }
+            rec(arr,i+1,n);
+    }
+    void insertionSort(int arr[], int n)
+    {
+        rec(arr,1,n);
     }
 };
 
